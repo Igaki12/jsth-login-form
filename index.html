@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ログイン - 第29回渡航医学会 QRコード読み取り入場システム</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;700;800&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Reset and Base Styles */
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            font-size: 16px; /* Base font size for rem units */
+        }
+
+        body {
+            font-family: 'Inter', 'Noto Sans JP', sans-serif;
+            color: #e0e0e0; /* Light grey for general text, good contrast on dark greens */
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden; /* Prevents scrollbars from gradient overflow */
+            /* Flowing Gradient Background - Using deep, elegant Japanese-inspired greens */
+            background: linear-gradient(-45deg, #00402E, #1A3A3A, #2A5242, #3C6A47);
+            background-size: 400% 400%;
+            animation: gradientFlow 10s ease infinite;
+        }
+
+        @keyframes gradientFlow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Login Page Container */
+        .login-container {
+            width: 100%;
+            max-width: 450px; /* Max width for the form */
+            padding: 2rem; /* Responsive padding */
+            margin: 1rem; /* Margin for smaller screens */
+            text-align: center;
+        }
+
+        /* Header Styling */
+        .login-header {
+            margin-bottom: 2rem;
+        }
+
+        .login-header h1 {
+            font-family: 'Shippori Mincho', serif;
+            font-size: 1.8rem; /* Responsive font size */
+            font-weight: 800; /* 重厚感を出すためにウェイトを700から800に変更 */
+            color: #f5f5f5; /* Slightly brighter for title */
+            margin-bottom: 0.5rem;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3); /* Subtle shadow for depth */
+        }
+
+        .login-header p {
+            font-size: 1rem;
+            color: #c0c0c0; /* Softer color for subtitle */
+            font-weight: 400;
+        }
+
+        /* Form Container Styling */
+        .login-form-wrapper {
+            background: rgba(10, 25, 20, 0.6); /* Dark, semi-transparent green tint */
+            padding: 2.5rem 2rem; /* More padding inside the form */
+            border-radius: 12px; /* Softer, more rounded corners */
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37),
+                        inset 0 0 10px rgba(0,0,0,0.2); /* Outer and subtle inner shadow */
+            backdrop-filter: blur(8px); /* Frosted glass effect */
+            -webkit-backdrop-filter: blur(8px); /* For Safari */
+            border: 1px solid rgba(200, 220, 210, 0.18); /* Subtle border */
+        }
+
+        /* Form Group Styling */
+        .form-group {
+            margin-bottom: 1.5rem;
+            text-align: left; /* Align labels and inputs to the left */
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.9rem;
+            color: #b0c0b8; /* Muted green-ish white for labels */
+            margin-bottom: 0.5rem;
+            font-weight: 700; /* ラベルのウェイトを600から700に変更 */
+        }
+
+        .form-group input[type="email"],
+        .form-group input[type="password"] {
+            width: 100%;
+            padding: 0.9rem 1rem;
+            border: 1px solid rgba(200, 220, 210, 0.25); /* Subtle border */
+            border-radius: 8px; /* Consistent rounded corners */
+            background-color: rgba(0, 0, 0, 0.25); /* Darker transparent background for inputs */
+            color: #f0f0f0; /* Light text color for input */
+            font-size: 1rem;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .form-group input[type="email"]::placeholder,
+        .form-group input[type="password"]::placeholder {
+            color: #90a098; /* Muted placeholder text */
+        }
+
+        .form-group input[type="email"]:focus,
+        .form-group input[type="password"]:focus {
+            outline: none;
+            border-color: rgba(120, 180, 150, 0.7); /* Shibui green focus highlight */
+            box-shadow: 0 0 0 3px rgba(100, 160, 130, 0.3); /* Soft glow on focus */
+        }
+
+        /* Submit Button Styling */
+        .submit-btn {
+            width: 100%;
+            padding: 0.9rem 1rem;
+            background-color: #3A8B76; /* A shibui, yet distinct green for the button */
+            color: #ffffff;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600; /* ボタンテキストのウェイトは維持 */
+            font-family: 'Inter', sans-serif;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .submit-btn:hover {
+            background-color: #4A9C86; /* Slightly lighter on hover */
+            transform: translateY(-2px); /* Subtle lift effect */
+        }
+
+        .submit-btn:active {
+            background-color: #2A7A66; /* Darker on click */
+            transform: translateY(0);
+        }
+
+        /* Footer Styling */
+        .login-footer {
+            margin-top: 2.5rem;
+            font-size: 0.85rem;
+            color: #a0b0a8; /* Muted color for footer */
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .login-header h1 {
+                font-size: 1.6rem;
+            }
+            .login-header p {
+                font-size: 0.9rem;
+            }
+            .login-form-wrapper {
+                padding: 2rem 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            html {
+                font-size: 15px; /* Slightly smaller base for very small screens */
+            }
+            .login-container {
+                padding: 1.5rem 1rem;
+            }
+            .login-header h1 {
+                font-size: 1.4rem;
+            }
+            .login-header p {
+                font-size: 0.85rem;
+            }
+            .login-form-wrapper {
+                padding: 1.5rem 1rem;
+            }
+            .form-group input[type="email"],
+            .form-group input[type="password"],
+            .submit-btn {
+                padding: 0.8rem;
+                font-size: 0.95rem;
+            }
+            .submit-btn {
+                font-size: 1rem;
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <header class="login-header">
+            <h1>第29回渡航医学会</h1>
+            <p>QRコード読み取り入場システム</p>
+        </header>
+
+        <main class="login-form-wrapper">
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="email">メールアドレス</label>
+                    <input type="email" id="email" name="email" placeholder="例: user@example.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">パスワード</label>
+                    <input type="password" id="password" name="password" placeholder="パスワードを入力" required>
+                </div>
+                <button type="submit" class="submit-btn">ログイン</button>
+            </form>
+        </main>
+
+        <footer class="login-footer">
+            <p>&copy; 第29回渡航医学会 All Rights Reserved.</p>
+        </footer>
+    </div>
+
+    <script>
+        // Basic form submission handling (for demonstration)
+        const loginForm = document.getElementById('loginForm');
+        if (loginForm) {
+            loginForm.addEventListener('submit', function(event) {
+                event.preventDefault(); // Prevent default form submission
+
+                const email = document.getElementById('email').value;
+                const password = document.getElementById('password').value;
+
+                console.log('Attempting login with:');
+                console.log('Email:', email);
+                console.log('Password:', password);
+
+                // In a real Flask application, you would send this data to your backend.
+                // For example, using fetch API:
+                /*
+                fetch('/login', { // Replace with your Flask login route
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ email: email, password: password }),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Success:', data);
+                    // Handle success (e.g., redirect, show message)
+                    if (data.success) {
+                        // window.location.href = '/dashboard'; // Example redirect
+                    } else {
+                        // Show error message from server
+                        // alert(data.message || 'Login failed');
+                    }
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                    // Handle network error
+                    // alert('An error occurred. Please try again.');
+                });
+                */
+            });
+        }
+    </script>
+</body>
+</html>
